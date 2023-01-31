@@ -17,7 +17,7 @@ const lightbox = new SimpleLightbox('.gallery a', {
 });
 
 let page = 1;
-let per_page = 40;
+const per_page = 40;
 
 form.addEventListener('submit', onSearchPictures);
 loadMoreBtn.addEventListener('click', onLoadMore);
@@ -69,12 +69,13 @@ async function onLoadMore(evt) {
       loadMoreBtn.style.display = 'none';
     }
     renderMakup(response.hits);
+    lightbox.refresh();
   } catch {
     err => console.log(err);
   }
 }
 
-async function fetchApi(query, page, per_page) {
+async function fetchApi(query, page) {
   try {
     const response = await axios.get(
       `${BASE_URL}?key=${KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${per_page}&page=${page}`
